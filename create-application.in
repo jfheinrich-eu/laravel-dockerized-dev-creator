@@ -1,0 +1,23 @@
+#!/bin/bash
+
+laravel new ${LARAVEL_APP} \
+   --database ${DATABASE_DRIVER} \
+   --${STARTER_KIT} \
+   --phpunit \
+   --npm \
+   --force
+
+composer install
+npm install
+
+composer require predis/predis
+
+php artisan migate
+
+composer require wire-elements/wire-spy --dev
+composer require laravel/fortify
+
+php artisan fortify:install
+php artisan migrate
+
+touch /var/www/html/laravel-installation-passed
