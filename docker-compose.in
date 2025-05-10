@@ -94,6 +94,17 @@ services:
     ports:
       - 5540:5540
 
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: ${PREFIX_NAME}-phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+    networks:
+      - ${PREFIX_NAME}-network
+    ports:
+      - 8888:80
+    restart: unless-stopped
+    
 # Networks
 networks:
   ${PREFIX_NAME}-network:
