@@ -4,3 +4,4 @@ Dockerfile
 app/
 create-application.sh
 docker-compose.yml
+laravel-default-env

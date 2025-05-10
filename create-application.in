@@ -1,21 +1,44 @@
 #!/bin/bash
+set -e
 
-laravel new ${LARAVEL_APP} \
-   --database ${DATABASE_DRIVER} \
+LARAVEL_INSTALLER=/home/$USERNAME/.config/composer/vendor/bin/laravel
+
+set -a
+source /home/$USERNAME/laravel-default-env
+set +a
+
+cd /tmp 
+$LARAVEL_INSTALLER new ${LARAVEL_APP} \
+   --database=${DATABASE_DRIVER} \
    --${STARTER_KIT} \
    --phpunit \
-   --npm \
-   --force
+   --npm
+
+cd ${LARAVEL_APP} && \
+	cp -a . /var/www/html && \
+	cd /var/www/html && \
+	cp /home/$USERNAME/laravel-default-env ./.env
+
+cd /laravel-defaults && cp -a . /var/www/html && cd /var/www/html
 
 composer install
 npm install
 
 composer require predis/predis
 
-php artisan migate
+# Generate application key if it doesn't exist
+if [ -z "$(grep '^APP_KEY=' .env | grep -v '=$')" ]; then
+	php artisan key:generate
+fi
 
-composer require wire-elements/wire-spy --dev
+php artisan migrate:fresh --force
+
+php artisan config:publish cors
+
+composer require barryvdh/laravel-debugbar --dev
 composer require laravel/fortify
+
+php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
 
 php artisan fortify:install
 php artisan migrate

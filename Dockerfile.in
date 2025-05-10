@@ -32,10 +32,13 @@ EOF
 USER $USERNAME
 WORKDIR /var/www/html
 RUN <<EOF
+	#!/bin/bash
         composer global require laravel/installer
         echo "export PATH=/home/$USERNAME/.config/composer/vendor/bin:${PATH}" >> /home/$USERNAME/.bashrc
-        source /home/${USERNAME}/.bashrc
+        . /home/${USERNAME}/.bashrc
 EOF
+COPY ./defaults /laravel-defaults
+COPY ./laravel-default-env /home/$USERNAME/laravel-default-env
 COPY ./create-application.sh /laravel-install.sh
 COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
