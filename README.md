@@ -63,19 +63,13 @@ After you clone this repository, you need following steps to get a development e
 cd [repository root]
 
 # customize the install environment file
-nano .env
+nano src/.env
 
 # Create the files Dockerfile, docker-compose.yml and laravel-default-env
-./create.sh
+./src/create.sh
 
-# Create the docker container
-docker compose up --build -d
-
-# Install Laravel 12 Livewire Fortify
-docker compose exec app /laravel-install.sh
-
-# Restart the `app` container
-docker compose restart app
+# run the installer
+bash ./build/installer.sh
 ```
 
 Now you can access the Laravel installation with [http://localhost:8080](http://localhost:8080)
