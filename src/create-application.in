@@ -7,7 +7,7 @@ set -a
 source /home/$USERNAME/laravel-default-env
 set +a
 
-cd /tmp 
+cd /tmp
 $LARAVEL_INSTALLER new ${LARAVEL_APP} \
    --database=${DATABASE_DRIVER} \
    --${STARTER_KIT} \
