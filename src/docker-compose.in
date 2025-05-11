@@ -104,7 +104,7 @@ services:
     ports:
       - 8888:80
     restart: unless-stopped
-    
+
 # Networks
 networks:
   ${PREFIX_NAME}-network:
