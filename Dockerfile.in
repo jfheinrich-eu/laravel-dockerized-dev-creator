@@ -1,0 +1,46 @@
+FROM php:8.3-fpm
+
+ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+
+RUN <<EOF
+    groupadd --gid $USER_GID $USERNAME && \
+    useradd --uid $USER_UID --gid $USER_GID  -m $USERNAME && \
+    apt-get update && apt-get install -y \
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    unzip \
+    libzip-dev \
+    nodejs \
+    npm \
+    netcat-traditional \
+    nano \
+    sudo ${EXTRA_PACKAGES}
+
+    echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME
+    chmod 0440 /etc/sudoers.d/$USERNAME
+
+    install-php-extensions @composer-2
+    install-php-extensions ctype filter hash mbstring openssl session tokennize
+    install-php-extensions pdo_mysql mbstring exif pcntl bcmath gd zip redis ${EXTRA_EXTENSIONS}
+EOF
+
+
+USER $USERNAME
+WORKDIR /var/www/html
+RUN <<EOF
+	#!/bin/bash
+        composer global require laravel/installer
+        echo "export PATH=/home/$USERNAME/.config/composer/vendor/bin:${PATH}" >> /home/$USERNAME/.bashrc
+        . /home/${USERNAME}/.bashrc
+EOF
+COPY ./defaults /laravel-defaults
+COPY ./laravel-default-env /home/$USERNAME/laravel-default-env
+COPY ./create-application.sh /laravel-install.sh
+COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["php-fpm"]
