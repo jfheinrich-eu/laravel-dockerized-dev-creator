@@ -1,6 +1,6 @@
 <p align="center">
   <a href="" rel="noopener">
- <img width=200px height=200px src="https://imgur.com/tcYJmPS.png" alt="Laravel 12 Dockerized Development Creator"></a>
+ <img width=200px height=200px src="./docs/laravel-12-dockerized-dev-creator.png" alt="Laravel 12 Dockerized Development Creator"></a>
 </p>
 
 <h1 align="center">Laravel 12 Dockerized Development Creator</h1>
@@ -28,7 +28,6 @@
   - [Requirements](#requirements)
 - [Usage](#usage)
 - [Authors](#authors)
-- [Acknowledgements](#acknowledgements)
 
 
 
