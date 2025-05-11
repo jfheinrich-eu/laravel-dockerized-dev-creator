@@ -5,3 +5,4 @@ app/
 create-application.sh
 docker-compose.yml
 laravel-default-env
+laravel-installation-passed
