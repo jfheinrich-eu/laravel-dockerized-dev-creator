@@ -1,0 +1,13 @@
+{
+    "files.insertFinalNewline": true,
+    "git.enableCommitSigning": true,
+    "jira-plugin.workingProject": "",
+    "scm.alwaysShowRepositories": false,
+    "dev.containers.defaultExtensions": [
+        "mutantdino.resourcemonitor"
+    ],
+    "command-runner.terminal.name": "Run Command",
+    "command-runner.terminal.autoClear": true,
+    "command-runner.terminal.autoFocus": true,
+    "command-runner.commands": {}
+}

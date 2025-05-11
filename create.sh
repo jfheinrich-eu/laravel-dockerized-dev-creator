@@ -34,3 +34,21 @@ then
 else
 	echo "File create-application.in not found. File create-application.sh not created!"
 fi
+
+if [ -r laravel-default-env.in ]
+then
+	echo "Create laravel-default-env"
+	envsubst "$(printf '${%s} ' $(cat .env|cut -d'=' -f1))" < laravel-default-env.in > laravel-default-env
+else
+	echo "File laravel-default-env.in not found. File laravel-default-env not created!"
+fi
+
+if [ -d ${DOCKER_MOUNT_SOURCE} ]
+then
+	rm -rf ${DOCKER_MOUNT_SOURCE}
+	echo "reset docker mount point ${DOCKER_MOUNT_SOURCE}"
+else
+	echo "create docker mount point ${DOCKER_MOUNT_SOURCE}"
+fi
+
+mkdir -p ${DOCKER_MOUNT_SOURCE}
