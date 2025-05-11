@@ -4,7 +4,7 @@ set -e
 if [ -f /var/www/html/laravel-installation-passed ]
 then
 	npm install && composer install
-	
+
 	# Generate application key if it doesn't exist
 	if [ -z "$(grep '^APP_KEY=' .env | grep -v '=$')" ]; then
 	    php artisan key:generate
