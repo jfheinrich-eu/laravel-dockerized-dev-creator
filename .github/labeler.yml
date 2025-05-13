@@ -65,3 +65,7 @@ vscode:
   - changed-files:
       - any-glob-to-any-file:
           - .vscode/*
+pre-commit:
+  - changed-files:
+      - any-glob-to-any-file:
+          - .pre-commit-config.yaml

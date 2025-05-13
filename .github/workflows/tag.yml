@@ -10,6 +10,7 @@ on:
 
 jobs:
   bump-tag-version:
+    if: ${{ github.actor != 'dependabot[bot]' }} &&  ${{ github.actor != 'pre-commit[bot]' }}
     name: Bump and Tag Version
     runs-on: ubuntu-latest
     defaults:
