@@ -15,11 +15,6 @@ jobs:
         shell: bash
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          ref: main
-
       - name: Fetch secrets
         id: fetch_secrets
         uses: jfheinrich-eu/psono-secret-whisperer@v1.0.0
@@ -31,6 +26,14 @@ jobs:
           secret_type: 'secret'
           secret_fields: 'password'
           mask_secrets: 'password'
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ steps.fetch_secrets.outputs.secret1 }}
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+          fetch-depth: 0             # otherwise, there would be errors pushing refs to the destination repository.
 
       - name: Update CHANGELOG
         id: changelog
@@ -49,10 +52,14 @@ jobs:
           body: ${{ steps.changelog.outputs.changes }}
 
       - name: Commit CHANGELOG.md
-        uses: Amraneze/push-to-protected-branch@v1.5.0
+        run: |
+          git config --local user.name "${{ github.actor }}"
+          git config --local user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+          git add CHANGELOG.md
+          git commit -m "docs: update CHANGELOG.md for ${{ github.ref_name }} [skip ci]"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
         with:
-          repository: ${{ github.repository }}
-          branch_name: main
           github_token: ${{ steps.fetch_secrets.outputs.secret1 }}
-          commit_message: 'docs: update CHANGELOG.md for ${{ github.ref_name }} on ${{ github.ref }} [skip ci]'
-          files_to_commit: CHANGELOG.md
+          branch: main
