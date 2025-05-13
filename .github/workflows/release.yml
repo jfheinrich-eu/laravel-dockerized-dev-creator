@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Fetch secrets
         id: fetch_secrets
@@ -47,7 +49,6 @@ jobs:
           body: ${{ steps.changelog.outputs.changes }}
 
       - name: Commit CHANGELOG.md
-        if: ${{ github.ref }} == 'refs/heads/main'
         uses: Amraneze/push-to-protected-branch@v1.5.0
         with:
           repository: ${{ github.repository }}
