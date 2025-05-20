@@ -9,5 +9,7 @@
     "command-runner.terminal.name": "Run Command",
     "command-runner.terminal.autoClear": true,
     "command-runner.terminal.autoFocus": true,
-    "command-runner.commands": {}
+    "command-runner.commands": {},
+    "workbench.colorTheme": "Default High Contrast",
+    "workbench.iconTheme": "material-icon-theme"
 }
